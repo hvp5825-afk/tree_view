@@ -60,6 +60,16 @@ function togglePwd(btn) {
   inp.type = inp.type === 'password' ? 'text' : 'password';
   btn.querySelector('i').className = inp.type === 'password' ? 'bi bi-eye' : 'bi bi-eye-slash';
 }
+
+// Force reload on browser back/forward to prevent stale state issues
+window.addEventListener("pageshow", function (event) {
+  var historyTraversal = event.persisted || 
+                         (typeof window.performance != "undefined" && 
+                          window.performance.navigation.type === 2);
+  if (historyTraversal) {
+    window.location.reload();
+  }
+});
 </script>
 </body>
 </html>

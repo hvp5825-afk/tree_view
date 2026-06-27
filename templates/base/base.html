@@ -124,6 +124,16 @@
       if (parts.length === 2) return parts.pop().split(';').shift();
     }
     $.ajaxSetup({ headers: { 'X-CSRFToken': getCookie('csrftoken') } });
+
+    // Force reload on browser back/forward to prevent stale session bfcache issues
+    window.addEventListener("pageshow", function (event) {
+      var historyTraversal = event.persisted || 
+                             (typeof window.performance != "undefined" && 
+                              window.performance.navigation.type === 2);
+      if (historyTraversal) {
+        window.location.reload();
+      }
+    });
   </script>
   {% block extra_js %}{% endblock %}
 </body>
