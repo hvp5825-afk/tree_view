@@ -23,7 +23,7 @@
           <tr>
             <th>#</th><th>Member ID</th><th>Name</th><th>Mobile</th><th>Status</th>
             <th>PAN File</th><th>Aadhaar File</th><th>Bank File</th><th>Photo</th>
-            <th>Submitted</th><th>Remarks</th><th>Action</th>
+            <th>Submitted</th><th>Remarks</th>{% if status_filter == 'pending' %}<th>Action</th>{% endif %}
           </tr>
         </thead>
         <tbody>
@@ -40,6 +40,7 @@
             <td>{% if kyc.photo_file %}<a href="{{ kyc.photo_file.url }}" target="_blank" class="btn btn-xs btn-outline-primary btn-sm">View</a>{% else %}—{% endif %}</td>
             <td class="small">{{ kyc.submitted_at|date:"d M Y" }}</td>
             <td><small class="text-muted">{{ kyc.remarks|default:'—'|truncatechars:35 }}</small></td>
+            {% if status_filter == 'pending' %}
             <td>
               {% if kyc.status == 'pending' %}
               <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#actionModal{{ kyc.pk }}" data-action="accepted">Accept</button>
@@ -48,6 +49,7 @@
               <span class="badge badge-status-{{ kyc.status }}">{{ kyc.status|title }}</span>
               {% endif %}
             </td>
+            {% endif %}
           </tr>
           <!-- Action Modal -->
           <div class="modal fade" id="actionModal{{ kyc.pk }}" tabindex="-1">
@@ -69,7 +71,7 @@
             </div>
           </div>
           {% empty %}
-          <tr><td colspan="12" class="text-center text-muted py-3">No {{ status_filter }} KYC requests.</td></tr>
+          <tr><td colspan="{% if status_filter == 'pending' %}12{% else %}11{% endif %}" class="text-center text-muted py-3">No {{ status_filter }} KYC requests.</td></tr>
           {% endfor %}
         </tbody>
       </table>
