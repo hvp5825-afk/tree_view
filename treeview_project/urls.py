@@ -4,8 +4,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import RedirectView
 
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+
+def root_redirect(request):
+    logout(request)
+    return redirect('/accounts/login/')
+
 urlpatterns = [
-    path('', RedirectView.as_view(url='/accounts/login/', permanent=False)),
+    path('', root_redirect),
     path('admin/', admin.site.urls),
     path('dashboard/', include('dashboard.urls')),
     path('accounts/', include('accounts.urls')),

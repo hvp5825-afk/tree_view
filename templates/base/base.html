@@ -125,15 +125,13 @@
     }
     $.ajaxSetup({ headers: { 'X-CSRFToken': getCookie('csrftoken') } });
 
-    // Force reload on browser back/forward to prevent stale session bfcache issues
-    window.addEventListener("pageshow", function (event) {
-      var historyTraversal = event.persisted || 
-                             (typeof window.performance != "undefined" && 
-                              window.performance.navigation.type === 2);
-      if (historyTraversal) {
-        window.location.reload();
-      }
-    });
+    // Prevent browser back button from taking user to previous pages (like login)
+    {% if user.is_authenticated %}
+    history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+      history.go(1);
+    };
+    {% endif %}
   </script>
   {% block extra_js %}{% endblock %}
 </body>
