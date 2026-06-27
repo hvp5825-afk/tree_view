@@ -1,0 +1,56 @@
+{% extends 'base/base.html' %}
+{% block title %}Add Member{% endblock %}
+{% block page_title %}Add New Member{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 650px">
+  <div class="card-header"><h6 class="mb-0 fw-semibold">Create Member Account</h6></div>
+  <div class="card-body">
+    <form method="POST">
+      {% csrf_token %}
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Username *</label>
+          <input type="text" name="username" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Email *</label>
+          <input type="email" name="email" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Password *</label>
+          <input type="password" name="password" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Mobile</label>
+          <input type="text" name="mobile" class="form-control">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">First Name</label>
+          <input type="text" name="first_name" class="form-control">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Last Name</label>
+          <input type="text" name="last_name" class="form-control">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Sponsor ID</label>
+          <input type="text" name="sponsor_id" class="form-control" placeholder="e.g. UPN4580">
+          <div class="form-text">Leave blank if no sponsor</div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Binary Position</label>
+          <select name="position" class="form-select">
+            <option value="LEFT">LEFT</option>
+            <option value="RIGHT">RIGHT</option>
+          </select>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary"><i class="bi bi-person-plus me-2"></i>Create Member</button>
+          <a href="{% url 'accounts:associate_list' %}" class="btn btn-outline-secondary ms-2">Cancel</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

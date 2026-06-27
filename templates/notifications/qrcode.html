@@ -1,0 +1,75 @@
+{% extends 'base/base.html' %}
+{% block title %}QR Codes{% endblock %}
+{% block page_title %}Payment QR Codes{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+  <div class="col-md-5">
+    <div class="card">
+      <div class="card-header"><h6 class="mb-0 fw-semibold">Add QR Code</h6></div>
+      <div class="card-body">
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input type="text" name="title" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">QR Type</label>
+            <select name="qr_type" class="form-select">
+              <option value="gpay">GPay</option>
+              <option value="phonepe">PhonePe</option>
+              <option value="paytm">Paytm</option>
+              <option value="bank">Bank</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Bank Name</label>
+            <input type="text" name="bank_name" class="form-control">
+          </div>
+          <div class="row g-2">
+            <div class="col-6"><label class="form-label">Account No</label><input type="text" name="account_no" class="form-control"></div>
+            <div class="col-6"><label class="form-label">IFSC</label><input type="text" name="ifsc_code" class="form-control"></div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Account Holder</label>
+            <input type="text" name="account_holder" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">QR Image</label>
+            <input type="file" name="qr_image" class="form-control" accept="image/*" required>
+          </div>
+          <button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle me-2"></i>Add QR</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <div class="card">
+      <div class="card-header"><h6 class="mb-0 fw-semibold">Existing QR Codes</h6></div>
+      <div class="card-body">
+        <div class="row g-3">
+          {% for qr in qrcodes %}
+          <div class="col-md-6">
+            <div class="card h-100">
+              {% if qr.qr_image %}<img src="{{ qr.qr_image.url }}" class="card-img-top p-3" style="max-height:200px;object-fit:contain">{% endif %}
+              <div class="card-body text-center">
+                <h6 class="fw-semibold">{{ qr.title }}</h6>
+                <span class="badge bg-info">{{ qr.qr_type|title }}</span>
+                <p class="small text-muted mt-1">{{ qr.bank_name|default:'' }} {{ qr.account_no|default:'' }}</p>
+                <form method="POST" action="{% url 'notifications:delete_qrcode' qr.pk %}" style="display:inline">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete?')"><i class="bi bi-trash"></i></button>
+                </form>
+              </div>
+            </div>
+          </div>
+          {% empty %}
+          <div class="col-12 text-center py-4 text-muted">No QR codes added.</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

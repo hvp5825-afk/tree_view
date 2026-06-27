@@ -1,0 +1,87 @@
+{% extends 'base/base.html' %}
+{% block title %}Edit Profile{% endblock %}
+{% block page_title %}Edit Profile{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-header"><h6 class="mb-0 fw-semibold">Edit Personal & Bank Details</h6></div>
+      <div class="card-body">
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <h6 class="fw-semibold text-primary mb-3"><i class="bi bi-person me-2"></i>Personal Details</h6>
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label class="form-label">First Name</label>
+              <input type="text" name="first_name" class="form-control" value="{{ profile.first_name }}">
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label">Last Name</label>
+              <input type="text" name="last_name" class="form-control" value="{{ profile.last_name }}">
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label">Email</label>
+              <input type="email" name="email" class="form-control" value="{{ request.user.email }}">
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label">Mobile</label>
+              <input type="text" name="mobile" class="form-control" value="{{ request.user.mobile }}">
+            </div>
+            <div class="col-12">
+              <label class="form-label">Address</label>
+              <textarea name="address" class="form-control" rows="2">{{ profile.address }}</textarea>
+            </div>
+            <div class="col-sm-4">
+              <label class="form-label">City</label>
+              <input type="text" name="city" class="form-control" value="{{ profile.city }}">
+            </div>
+            <div class="col-sm-4">
+              <label class="form-label">State</label>
+              <input type="text" name="state" class="form-control" value="{{ profile.state }}">
+            </div>
+            <div class="col-sm-4">
+              <label class="form-label">Pincode</label>
+              <input type="text" name="pincode" class="form-control" value="{{ profile.pincode }}">
+            </div>
+            <div class="col-12">
+              <label class="form-label">Profile Image</label>
+              <input type="file" name="profile_image" class="form-control" accept="image/*">
+              {% if profile.profile_image %}<small class="text-muted">Current: {{ profile.profile_image.name }}</small>{% endif %}
+            </div>
+          </div>
+          <hr>
+          <h6 class="fw-semibold text-success mb-3"><i class="bi bi-bank me-2"></i>Bank Details</h6>
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label class="form-label">Bank Name</label>
+              <input type="text" name="bank_name" class="form-control" value="{{ profile.bank_name }}">
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label">Account Holder</label>
+              <input type="text" name="account_holder" class="form-control" value="{{ profile.account_holder }}">
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label">Account Number</label>
+              <input type="text" name="account_number" class="form-control" value="{{ profile.account_number }}">
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label">IFSC Code</label>
+              <input type="text" name="ifsc_code" class="form-control" value="{{ profile.ifsc_code }}">
+            </div>
+          </div>
+          <hr>
+          <h6 class="fw-semibold text-info mb-3"><i class="bi bi-phone me-2"></i>UPI / Payment Details</h6>
+          <div class="row g-3">
+            <div class="col-sm-3"><label class="form-label">GPay</label><input type="text" name="gpay" class="form-control" value="{{ profile.gpay }}"></div>
+            <div class="col-sm-3"><label class="form-label">PhonePe</label><input type="text" name="phonepe" class="form-control" value="{{ profile.phonepe }}"></div>
+            <div class="col-sm-3"><label class="form-label">Paytm</label><input type="text" name="paytm" class="form-control" value="{{ profile.paytm }}"></div>
+            <div class="col-sm-3"><label class="form-label">UPI ID</label><input type="text" name="upi_id" class="form-control" value="{{ profile.upi_id }}"></div>
+          </div>
+          <div class="mt-4"><button type="submit" class="btn btn-primary"><i class="bi bi-save me-2"></i>Save Changes</button></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

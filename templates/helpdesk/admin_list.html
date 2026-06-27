@@ -1,0 +1,51 @@
+{% extends 'base/base.html' %}
+{% load extras %}
+{% block title %}Help Requests{% endblock %}
+{% block page_title %}Help Request Management{% endblock %}
+
+{% block content %}
+<ul class="nav nav-tabs mb-3">
+  {% for s in 'pending,accepted,rejected'|split:',' %}
+  <li class="nav-item"><a class="nav-link {% if status_filter == s %}active{% endif %}" href="?status={{ s }}">{{ s|title }}</a></li>
+  {% endfor %}
+</ul>
+<div class="card">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead><tr><th>#</th><th>Request To</th><th>Request By</th><th>Amount</th><th>Trans No</th><th>Date</th><th>File</th><th>Remarks</th><th>Action</th></tr></thead>
+        <tbody>
+          {% for s in sends %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ s.request_to.member_id|default:"—" }}</td>
+            <td>{{ s.user.member_id }}</td>
+            <td>₹{{ s.amount }}</td>
+            <td>{{ s.transaction_no|default:"—" }}</td>
+            <td class="small">{{ s.created_at|date:"d M Y" }}</td>
+            <td>{% if s.proof_file %}<a href="{{ s.proof_file.url }}" target="_blank" class="btn btn-sm btn-outline-primary">View</a>{% else %}—{% endif %}</td>
+            <td>{{ s.remarks|truncatechars:30 }}</td>
+            <td>
+              {% if s.status == 'pending' %}
+              <form method="POST" action="{% url 'helpdesk:admin_action' s.pk %}" class="d-inline">
+                {% csrf_token %}<input type="hidden" name="action" value="accepted">
+                <button class="btn btn-sm btn-success">Accept</button>
+              </form>
+              <form method="POST" action="{% url 'helpdesk:admin_action' s.pk %}" class="d-inline">
+                {% csrf_token %}<input type="hidden" name="action" value="rejected">
+                <button class="btn btn-sm btn-danger">Reject</button>
+              </form>
+              {% else %}
+              <span class="badge badge-status-{{ s.status }}">{{ s.status|title }}</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="9" class="text-center text-muted py-3">No {{ status_filter }} requests.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

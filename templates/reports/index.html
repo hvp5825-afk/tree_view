@@ -1,0 +1,42 @@
+{% extends 'base/base.html' %}
+{% block title %}Reports{% endblock %}
+{% block page_title %}Reports & Exports{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+  <div class="col-md-4">
+    <div class="card text-center h-100">
+      <div class="card-body">
+        <i class="bi bi-people fs-1 text-primary"></i>
+        <h5 class="mt-2">Members Report</h5>
+        <p class="text-muted small">Export all member data</p>
+        <div class="d-flex gap-2 justify-content-center">
+          <a href="{% url 'reports:members_excel' %}" class="btn btn-sm btn-success"><i class="bi bi-file-earmark-excel me-1"></i>Excel</a>
+          <a href="{% url 'reports:members_csv' %}" class="btn btn-sm btn-info"><i class="bi bi-file-earmark me-1"></i>CSV</a>
+          <a href="{% url 'reports:members_pdf' %}" class="btn btn-sm btn-danger"><i class="bi bi-file-earmark-pdf me-1"></i>PDF</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-center h-100">
+      <div class="card-body">
+        <i class="bi bi-hand-index fs-1 text-warning"></i>
+        <h5 class="mt-2">Help Requests</h5>
+        <p class="text-muted small">Export send help requests</p>
+        <a href="{% url 'reports:help_excel' %}" class="btn btn-sm btn-success"><i class="bi bi-file-earmark-excel me-1"></i>Excel</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-center h-100">
+      <div class="card-body">
+        <i class="bi bi-cash-coin fs-1 text-success"></i>
+        <h5 class="mt-2">PMF Requests</h5>
+        <p class="text-muted small">Export PMF payments</p>
+        <a href="{% url 'reports:pmf_excel' %}" class="btn btn-sm btn-success"><i class="bi bi-file-earmark-excel me-1"></i>Excel</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

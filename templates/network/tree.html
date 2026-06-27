@@ -1,0 +1,49 @@
+{% extends 'base/base.html' %}
+{% block title %}Tree View{% endblock %}
+{% block page_title %}Binary Tree View{% endblock %}
+
+{% block content %}
+<div class="card mb-3">
+  <div class="card-body">
+    <form method="GET" class="row g-2 align-items-end">
+      <div class="col-md-4">
+        <label class="form-label fw-medium">Search Member ID</label>
+        <input type="text" name="member_id" class="form-control" value="{{ root_member_id }}" placeholder="e.g. UPN5001">
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary"><i class="bi bi-search me-1"></i>View Tree</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <!-- Legend -->
+    <div class="d-flex gap-3 mb-3 flex-wrap">
+      <span class="d-flex align-items-center gap-1">
+        <span style="width:14px;height:14px;border-radius:3px;background:#d1fae5;border:2px solid #198754;display:inline-block"></span>
+        <small>Active</small>
+      </span>
+      <span class="d-flex align-items-center gap-1">
+        <span style="width:14px;height:14px;border-radius:3px;background:#fee2e2;border:2px solid #dc3545;display:inline-block"></span>
+        <small>Inactive</small>
+      </span>
+      <span class="d-flex align-items-center gap-1">
+        <span style="width:14px;height:14px;border-radius:3px;background:#f8f9fa;border:2px dashed #adb5bd;display:inline-block"></span>
+        <small>Empty</small>
+      </span>
+    </div>
+
+    <div class="tree-container">
+      <div class="tree">
+        {% if tree %}
+          {% include 'network/tree_node.html' with node=tree %}
+        {% else %}
+          <p class="text-muted text-center">No tree data found.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

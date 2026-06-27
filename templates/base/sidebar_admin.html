@@ -1,0 +1,139 @@
+{% load static %}
+<li class="nav-item">
+  <a class="nav-link text-white {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}" href="{% url 'dashboard:admin_dashboard' %}" title="Dashboard">
+    <i class="bi bi-speedometer2 me-2"></i><span>Dashboard</span>
+  </a>
+</li>
+
+<li class="nav-item mt-1">
+  <a class="nav-link text-white collapsed" data-bs-toggle="collapse" href="#assocMenu" title="Associates">
+    <i class="bi bi-people me-2"></i><span>Associates</span> <i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <div class="collapse" id="assocMenu">
+    <ul class="nav flex-column ms-3">
+      <li><a class="nav-link text-secondary py-1" href="{% url 'accounts:associate_list' %}?filter=all" title="All Associates"><i class="bi bi-circle me-1"></i><span>All</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'accounts:associate_list' %}?filter=active" title="Active Associates"><i class="bi bi-circle me-1"></i><span>Active</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'accounts:associate_list' %}?filter=inactive" title="Inactive Associates"><i class="bi bi-circle me-1"></i><span>Inactive</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'accounts:add_member' %}" title="Add New Member"><i class="bi bi-person-plus me-1"></i><span>Add Member</span></a></li>
+    </ul>
+  </div>
+</li>
+
+<li class="nav-item mt-1">
+  <a class="nav-link text-white" href="{% url 'network:tree' %}" title="Tree View">
+    <i class="bi bi-diagram-3 me-2"></i><span>Tree View</span>
+  </a>
+</li>
+
+<li class="nav-item mt-1">
+  <a class="nav-link text-white collapsed" data-bs-toggle="collapse" href="#kycMenu" title="KYC">
+    <i class="bi bi-card-checklist me-2"></i><span>KYC</span> <i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <div class="collapse" id="kycMenu">
+    <ul class="nav flex-column ms-3">
+      <li><a class="nav-link text-secondary py-1" href="{% url 'kyc:admin_list' %}?status=pending" title="Pending KYC"><i class="bi bi-circle me-1"></i><span>Pending</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'kyc:admin_list' %}?status=accepted" title="Accepted KYC"><i class="bi bi-circle me-1"></i><span>Accepted</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'kyc:admin_list' %}?status=rejected" title="Rejected KYC"><i class="bi bi-circle me-1"></i><span>Rejected</span></a></li>
+    </ul>
+  </div>
+</li>
+
+<li class="nav-item mt-1">
+  <a class="nav-link text-white collapsed" data-bs-toggle="collapse" href="#pmfMenu" title="PMF Request">
+    <i class="bi bi-cash-coin me-2"></i><span>PMF Request</span> <i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <div class="collapse" id="pmfMenu">
+    <ul class="nav flex-column ms-3">
+      <li><a class="nav-link text-secondary py-1" href="{% url 'pmf:admin_list' %}?status=pending" title="Pending PMF"><i class="bi bi-circle me-1"></i><span>Pending</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'pmf:admin_list' %}?status=product_accepted" title="Product Accepted"><i class="bi bi-circle me-1"></i><span>Product Accepted</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'pmf:admin_list' %}?status=accepted" title="Accepted"><i class="bi bi-circle me-1"></i><span>Accepted</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'pmf:admin_list' %}?status=rejected" title="Rejected"><i class="bi bi-circle me-1"></i><span>Rejected</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'pmf:admin_list' %}?status=dispatched" title="Dispatched"><i class="bi bi-circle me-1"></i><span>Dispatched</span></a></li>
+    </ul>
+  </div>
+</li>
+
+<li class="nav-item mt-1">
+  <a class="nav-link text-white collapsed" data-bs-toggle="collapse" href="#helpMenu" title="Help Request">
+    <i class="bi bi-hand-index me-2"></i><span>Help Request</span> <i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <div class="collapse" id="helpMenu">
+    <ul class="nav flex-column ms-3">
+      <li><a class="nav-link text-secondary py-1" href="{% url 'helpdesk:admin_list' %}?status=pending" title="Pending Help"><i class="bi bi-circle me-1"></i><span>Pending</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'helpdesk:admin_list' %}?status=accepted" title="Accepted Help"><i class="bi bi-circle me-1"></i><span>Accepted</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'helpdesk:admin_list' %}?status=rejected" title="Rejected Help"><i class="bi bi-circle me-1"></i><span>Rejected</span></a></li>
+    </ul>
+  </div>
+</li>
+
+<li class="nav-item mt-1">
+  <a class="nav-link text-white collapsed" data-bs-toggle="collapse" href="#rewardMenu" title="Rewards">
+    <i class="bi bi-trophy me-2"></i><span>Rewards</span> <i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <div class="collapse" id="rewardMenu">
+    <ul class="nav flex-column ms-3">
+      <li><a class="nav-link text-secondary py-1" href="{% url 'rewards:admin_list' %}?status=pending" title="Pending Rewards"><i class="bi bi-circle me-1"></i><span>Pending</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'rewards:admin_list' %}?status=accepted" title="Accepted Rewards"><i class="bi bi-circle me-1"></i><span>Accepted</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'rewards:admin_list' %}?status=rejected" title="Rejected Rewards"><i class="bi bi-circle me-1"></i><span>Rejected</span></a></li>
+    </ul>
+  </div>
+</li>
+
+<li class="nav-item mt-1">
+  <a class="nav-link text-white collapsed" data-bs-toggle="collapse" href="#notifMenu" title="Notifications">
+    <i class="bi bi-bell me-2"></i><span>Notifications</span> <i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <div class="collapse" id="notifMenu">
+    <ul class="nav flex-column ms-3">
+      <li><a class="nav-link text-secondary py-1" href="{% url 'notifications:add' %}" title="Add Notification"><i class="bi bi-circle me-1"></i><span>Add Notification</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'notifications:qrcode' %}" title="Add QR Code"><i class="bi bi-circle me-1"></i><span>Add QR Code</span></a></li>
+    </ul>
+  </div>
+</li>
+
+<li class="nav-item mt-1">
+  <a class="nav-link text-white collapsed" data-bs-toggle="collapse" href="#productMenu" title="PMF Product">
+    <i class="bi bi-box me-2"></i><span>PMF Product</span> <i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <div class="collapse" id="productMenu">
+    <ul class="nav flex-column ms-3">
+      <li><a class="nav-link text-secondary py-1" href="{% url 'products:add' %}" title="Add Product"><i class="bi bi-circle me-1"></i><span>Add Product</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'products:manage' %}" title="Manage Products"><i class="bi bi-circle me-1"></i><span>Manage Products</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'products:settings' %}" title="Project Settings"><i class="bi bi-circle me-1"></i><span>Project Settings</span></a></li>
+    </ul>
+  </div>
+</li>
+
+<li class="nav-item mt-1">
+  <a class="nav-link text-white collapsed" data-bs-toggle="collapse" href="#supportMenu" title="Support">
+    <i class="bi bi-headset me-2"></i><span>Support</span> <i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <div class="collapse" id="supportMenu">
+    <ul class="nav flex-column ms-3">
+      <li><a class="nav-link text-secondary py-1" href="{% url 'support:admin_inbox' %}" title="Inbox"><i class="bi bi-circle me-1"></i><span>Inbox</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'support:admin_outbox' %}" title="Outbox"><i class="bi bi-circle me-1"></i><span>Outbox</span></a></li>
+    </ul>
+  </div>
+</li>
+
+<li class="nav-item mt-1">
+  <a class="nav-link text-white collapsed" data-bs-toggle="collapse" href="#reportMenu" title="Reports">
+    <i class="bi bi-file-earmark-bar-graph me-2"></i><span>Reports</span> <i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <div class="collapse" id="reportMenu">
+    <ul class="nav flex-column ms-3">
+      <li><a class="nav-link text-secondary py-1" href="{% url 'reports:index' %}" title="Report Dashboard"><i class="bi bi-circle me-1"></i><span>Report Dashboard</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'reports:members_excel' %}" title="Members Excel"><i class="bi bi-circle me-1"></i><span>Members Excel</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'reports:members_csv' %}" title="Members CSV"><i class="bi bi-circle me-1"></i><span>Members CSV</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'reports:members_pdf' %}" title="Members PDF"><i class="bi bi-circle me-1"></i><span>Members PDF</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'reports:help_excel' %}" title="Help Excel"><i class="bi bi-circle me-1"></i><span>Help Excel</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'reports:pmf_excel' %}" title="PMF Excel"><i class="bi bi-circle me-1"></i><span>PMF Excel</span></a></li>
+    </ul>
+  </div>
+</li>
+
+<li class="nav-item mt-1">
+  <a class="nav-link text-white" href="{% url 'accounts:change_password' %}" title="Password">
+    <i class="bi bi-shield-lock me-2"></i><span>Password</span>
+  </a>
+</li>

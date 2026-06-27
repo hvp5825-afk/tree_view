@@ -1,0 +1,76 @@
+{% extends 'base/base.html' %}
+{% block title %}Associates{% endblock %}
+{% block page_title %}Associates Management{% endblock %}
+
+{% block content %}
+<ul class="nav nav-tabs mb-3">
+  <li class="nav-item"><a class="nav-link {% if filter_val == 'all' %}active{% endif %}" href="?filter=all">All</a></li>
+  <li class="nav-item"><a class="nav-link {% if filter_val == 'active' %}active{% endif %}" href="?filter=active">Active</a></li>
+  <li class="nav-item"><a class="nav-link {% if filter_val == 'inactive' %}active{% endif %}" href="?filter=inactive">Inactive</a></li>
+</ul>
+
+<div class="card">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover table-striped mb-0 align-middle" id="assocTable">
+        <thead class="table-dark">
+          <tr>
+            <th>Sl</th><th>Status</th><th>Impersonate</th>
+            <th>Send Help (A/P/R)</th><th>Member ID</th><th>Name</th>
+            <th>Sponsor ID</th><th>Parent ID</th><th>Position</th>
+            <th>Password</th><th>Phone</th><th>Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for m in members %}
+          <tr>
+            <td>{{ m.sl }}</td>
+            <td>
+              <span class="badge badge-status-{{ m.user.status }}">{{ m.user.status|title }}</span>
+              <form method="POST" action="{% url 'accounts:toggle_user_status' m.user.pk %}" style="display:inline" class="ms-1">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm {% if m.user.status == 'active' %}btn-outline-danger{% else %}btn-outline-success{% endif %}" onclick="return confirm('Toggle status for {{ m.user.member_id }}?')" title="Click to {% if m.user.status == 'active' %}deactivate{% else %}activate{% endif %}">
+                  <i class="bi {% if m.user.status == 'active' %}bi-pause-circle{% else %}bi-play-circle{% endif %}"></i>
+                </button>
+              </form>
+              {% if m.user.status == 'active' %}
+              <form method="POST" action="{% url 'accounts:remove_member' m.user.pk %}" style="display:inline" class="ms-1">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-outline-dark" onclick="return confirm('Remove {{ m.user.member_id }} permanently?')" title="Remove member">
+                  <i class="bi bi-person-x"></i>
+                </button>
+              </form>
+              {% endif %}
+              <form method="POST" action="{% url 'accounts:delete_member' m.user.pk %}" style="display:inline" class="ms-1">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('DELETE {{ m.user.member_id }} permanently? This cannot be undone!')" title="Delete member">
+                  <i class="bi bi-trash3"></i>
+                </button>
+              </form>
+            </td>
+            <td><a href="{% url 'accounts:login' %}?impersonate={{ m.user.member_id }}" class="btn btn-sm btn-outline-warning" onclick="return confirm('Impersonate {{ m.user.member_id }}?')"><i class="bi bi-person-badge"></i></a></td>
+            <td class="small">{{ m.send_a }}/{{ m.send_p }}/{{ m.send_r }}</td>
+            <td><strong>{{ m.user.member_id }}</strong></td>
+            <td>{{ m.user.get_full_name }}</td>
+            <td>{{ m.user.sponsor_id|default:'—' }}</td>
+            <td>{{ m.parent_id }}</td>
+            <td>{{ m.position }}</td>
+            <td><small class="text-muted">{{ m.user.plain_password|default:'—' }}</small></td>
+            <td>{{ m.user.mobile|default:'—' }}</td>
+            <td><small>{{ m.user.profile.address|truncatechars:40|default:'—' }}</small></td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="12" class="text-center py-4 text-muted">No members found.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script>$('#assocTable').DataTable({pageLength:25});</script>
+{% endblock %}

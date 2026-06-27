@@ -1,0 +1,54 @@
+# Progress Log
+
+## Admin Panel
+- [x] Login to Admin Panel
+- [x] Explore Dashboard (Widgets: Active Members 276, Inactive Members 47, Total Members 323, Total Help Provided 414700, Pending Help Request 0, Accepted Help Request 1089, Rejected Help Request 2, Pending PMF Request 0)
+- [ ] Explore sidebar items:
+  - [x] Associate
+    - Submenus: All Associate (pending), Active Associate (accepted), Incative Associate (rejected).
+    - Table columns: Sl, Login status, Login button (impersonate), Send Help Count (A/P/R), Member ID, Name, Sponsor ID, Parent ID, Position, Password, Phone, Address.
+    - Filters: User ID, Range search.
+  - [x] Tree View
+    - Displays binary member hierarchy starting from a specific Member ID (searchable).
+  - [x] KYC
+    - Submenus: Pending Request, Accepted Request, Rejected Request.
+    - Table columns: Sl, Member ID, Name, Mobile, PAN Card (file attachment), UIDAI Card (Aadhaar, file attachment), Bank Details (Bank, A/C Holder, A/C No, IFSC), Google Pay, PhonePe, Paytm, UPI, Action (Accept button).
+  - [x] PMF Request
+    - Submenus: Pending Request, Product Accepted Request, Accepted Request, Rejected Request, PMF Product Dispatch.
+    - Table columns: Sl, Member ID, Name, Mobile, Level, Paid Amount, Transaction NO, Req. Date, Attachment, Reply Date, Status.
+    - Filters: User ID.
+  - [x] Help Request
+    - Submenus: Pending Request, Accepted Request, Rejected Request.
+    - Table columns: Sl, Request To (Member ID), Request By (Member ID), Paid Amount, Transaction NO, Date, File, Remarks, Action.
+    - Filters: User ID.
+  - [x] Reward
+    - Submenus: Pending Reward, Accepted Reward, Rejected Reward.
+    - Table columns: Sl, Member ID, Reward, Reward Amt., Date, Status, Action.
+    - Filters: Member ID.
+  - [x] Notification
+    - Submenus: Add Notification, Add Qr Code.
+    - Add Notification form: Select Type, Message. Table: Sl, Type, Member ID, Name, Message, Time, Delete button.
+    - Add Qr Code form: Title, Bank Name, A/C No, IFSC Code, A/C Holder Name, Upload Bank QR file. Table: Sl, Title, Date, Type, View button, Delete button.
+  - [x] Admin Settings
+    - Submenus: Project Settings.
+    - Project Settings table: S.No, TITLE (input), STATUS (toggle), AMT (input), MARK (input), REWARD (input).
+  - [x] PMF Product
+    - Submenus: Add Product, Manage Product.
+    - Add Product form: Product Title, Product Amount, Color, Size, Upload Image, Product Details (CKEditor).
+    - Manage Product table: S.No, Status (toggle button), Title, Details, Price, Color, Size, Image, Date, Action (Edit button).
+  - [x] Support
+    - Submenus: Inbox, Outbox.
+    - Inbox table: SI.N., Member ID/ Name, Message, Time, Status, Reply button.
+    - Outbox table: SI.N., Member ID/ Name, Message, Time, Answer (reply text).
+  - [x] Password
+    - Form fields: Old Password, New Password, Confirm Password, Update Email (Optional), Update Username (Optional).
+
+## User Panel
+- [ ] Login to User Panel (UPN5001 / 123456)
+- [ ] Explore Dashboard
+- [ ] Explore sidebar items:
+  - [ ] Profile / Edit Profile
+  - [ ] Helping / Payment options
+  - [ ] Downline / Tree View
+  - [ ] Pins
+- [ ] List all functionalities and fields

@@ -1,0 +1,35 @@
+{% if node %}
+<ul>
+  <li>
+    <div class="tree-node {% if node.status == 'active' %}active-node{% elif node.status == 'inactive' %}inactive-node{% endif %}">
+      <div class="member-id">{{ node.member_id }}</div>
+      <div class="member-name">{{ node.name|truncatechars:12 }}</div>
+      <span class="badge bg-{{ node.status|yesno:'success,danger,warning' }} mt-1" style="font-size:.6rem">{{ node.status }}</span>
+    </div>
+    {% if node.left or node.right %}
+    <ul>
+      {% if node.left %}
+        {% include 'network/tree_node.html' with node=node.left %}
+      {% else %}
+        <li>
+          <div class="tree-node empty-node">
+            <div class="member-id">LEFT</div>
+            <div class="member-name">Empty</div>
+          </div>
+        </li>
+      {% endif %}
+      {% if node.right %}
+        {% include 'network/tree_node.html' with node=node.right %}
+      {% else %}
+        <li>
+          <div class="tree-node empty-node">
+            <div class="member-id">RIGHT</div>
+            <div class="member-name">Empty</div>
+          </div>
+        </li>
+      {% endif %}
+    </ul>
+    {% endif %}
+  </li>
+</ul>
+{% endif %}

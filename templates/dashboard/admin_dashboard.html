@@ -1,0 +1,92 @@
+{% extends 'base/base.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block page_title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="row g-3 mb-4">
+  {% with cards=True %}
+  <div class="col-6 col-lg-3">
+    <div class="card stat-card h-100">
+      <div class="card-body d-flex align-items-center gap-3">
+        <div class="rounded-3 bg-primary bg-opacity-10 p-3"><i class="bi bi-people-fill text-primary fs-4"></i></div>
+        <div><div class="fw-bold fs-4">{{ total_members }}</div><div class="text-muted small">Total Members</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card stat-card h-100">
+      <div class="card-body d-flex align-items-center gap-3">
+        <div class="rounded-3 bg-success bg-opacity-10 p-3"><i class="bi bi-person-check-fill text-success fs-4"></i></div>
+        <div><div class="fw-bold fs-4">{{ active_members }}</div><div class="text-muted small">Active Members</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card stat-card h-100">
+      <div class="card-body d-flex align-items-center gap-3">
+        <div class="rounded-3 bg-danger bg-opacity-10 p-3"><i class="bi bi-person-x-fill text-danger fs-4"></i></div>
+        <div><div class="fw-bold fs-4">{{ inactive_members }}</div><div class="text-muted small">Inactive Members</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card stat-card h-100">
+      <div class="card-body d-flex align-items-center gap-3">
+        <div class="rounded-3 bg-warning bg-opacity-10 p-3"><i class="bi bi-currency-rupee text-warning fs-4"></i></div>
+        <div><div class="fw-bold fs-4">₹{{ total_help }}</div><div class="text-muted small">Total Help Provided</div></div>
+      </div>
+    </div>
+  </div>
+  {% endwith %}
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-lg-3">
+    <div class="card stat-card border-start border-warning border-3">
+      <div class="card-body"><div class="text-muted small">Pending Help</div><div class="fw-bold fs-5">{{ pending_help }}</div></div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card stat-card border-start border-success border-3">
+      <div class="card-body"><div class="text-muted small">Accepted Help</div><div class="fw-bold fs-5">{{ accepted_help }}</div></div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card stat-card border-start border-danger border-3">
+      <div class="card-body"><div class="text-muted small">Rejected Help</div><div class="fw-bold fs-5">{{ rejected_help }}</div></div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card stat-card border-start border-info border-3">
+      <div class="card-body"><div class="text-muted small">Pending PMF</div><div class="fw-bold fs-5">{{ pending_pmf }}</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Recent Notifications -->
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h6 class="mb-0 fw-semibold">Recent Notifications</h6>
+    <a href="{% url 'notifications:add' %}" class="btn btn-sm btn-primary">+ Add</a>
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead><tr><th>#</th><th>Type</th><th>Message</th><th>Time</th></tr></thead>
+        <tbody>
+          {% for n in notifications %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td><span class="badge bg-secondary">{{ n.notif_type }}</span></td>
+            <td>{{ n.message|truncatechars:80 }}</td>
+            <td class="text-muted small">{{ n.created_at|timesince }} ago</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="4" class="text-center text-muted py-3">No notifications</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

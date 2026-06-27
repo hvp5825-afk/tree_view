@@ -1,0 +1,113 @@
+{% extends 'base/base.html' %}
+{% block title %}My Dashboard{% endblock %}
+{% block page_title %}My Dashboard{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="row g-3 mb-4">
+  <!-- Profile Card -->
+  <div class="col-md-4">
+    <div class="card stat-card h-100">
+      <div class="card-body text-center py-4">
+        {% if user.profile.profile_image %}
+        <img src="{{ user.profile.profile_image.url }}" class="rounded-circle mb-3" width="80" height="80" style="object-fit:cover">
+        {% else %}
+        <div class="rounded-circle bg-primary bg-opacity-10 d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px">
+          <i class="bi bi-person-fill text-primary fs-2"></i>
+        </div>
+        {% endif %}
+        <h6 class="fw-bold mb-1">{{ user.get_full_name }}</h6>
+        <div class="badge bg-primary mb-1">{{ user.member_id }}</div>
+        <div class="text-muted small">Sponsor: <strong>{{ user.sponsor_id|default:"—" }}</strong></div>
+        <div class="mt-2">
+          <span class="badge badge-status-{{ user.status }} rounded-pill px-3">{{ user.status|title }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Stats -->
+  <div class="col-md-8">
+    <div class="row g-3 h-100">
+      <div class="col-6">
+        <div class="card stat-card h-100 border-start border-primary border-3">
+          <div class="card-body">
+            <div class="text-muted small">Direct Referrals</div>
+            <div class="fw-bold fs-4">{{ directs_count }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="card stat-card h-100 border-start border-success border-3">
+          <div class="card-body">
+            <div class="text-muted small">Send Help Requests</div>
+            <div class="fw-bold fs-4">{{ send_count }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="card stat-card h-100 border-start border-info border-3">
+          <div class="card-body">
+            <div class="text-muted small">Receive Help Requests</div>
+            <div class="fw-bold fs-4">{{ receive_count }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="card stat-card h-100 border-start border-warning border-3">
+          <div class="card-body">
+            <div class="text-muted small">KYC Status</div>
+            <div class="fw-bold fs-5">
+              {% if user.kyc %}
+                <span class="badge badge-status-{{ user.kyc.status }}">{{ user.kyc.status|title }}</span>
+              {% else %}
+                <span class="badge bg-secondary">Not Submitted</span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Referral Links -->
+<div class="card mb-4">
+  <div class="card-header"><h6 class="mb-0 fw-semibold">Share Referral Link</h6></div>
+  <div class="card-body">
+    <div class="input-group">
+      <input type="text" id="refLink" class="form-control" value="{{ request.scheme }}://{{ request.get_host }}/accounts/register/?sponsor={{ user.member_id }}" readonly>
+      <button class="btn btn-outline-secondary" onclick="copyRef()"><i class="bi bi-clipboard"></i> Copy</button>
+      <a href="https://wa.me/?text=Join+using+my+link:+{{ request.scheme }}://{{ request.get_host }}/accounts/register/?sponsor={{ user.member_id }}" target="_blank" class="btn btn-success"><i class="bi bi-whatsapp"></i></a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.scheme }}://{{ request.get_host }}/accounts/register/?sponsor={{ user.member_id }}" target="_blank" class="btn btn-primary"><i class="bi bi-facebook"></i></a>
+    </div>
+  </div>
+</div>
+
+<!-- Notifications -->
+<div class="card">
+  <div class="card-header"><h6 class="mb-0 fw-semibold">Notifications</h6></div>
+  <div class="card-body p-0">
+    <ul class="list-group list-group-flush">
+      {% for n in notifications %}
+      <li class="list-group-item d-flex justify-content-between">
+        <span>{{ n.message }}</span>
+        <small class="text-muted">{{ n.created_at|timesince }} ago</small>
+      </li>
+      {% empty %}
+      <li class="list-group-item text-center text-muted">No notifications</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function copyRef() {
+  const inp = document.getElementById('refLink');
+  inp.select(); document.execCommand('copy');
+  alert('Referral link copied!');
+}
+</script>
+{% endblock %}

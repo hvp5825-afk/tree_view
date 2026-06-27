@@ -1,0 +1,19 @@
+{% extends 'base/base.html' %}
+{% block title %}Receive Help{% endblock %}
+{% block page_title %}Receive Help{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width:500px">
+  <div class="card-header"><h6 class="mb-0 fw-semibold">Request Receive Help</h6></div>
+  <div class="card-body">
+    <form method="POST">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label class="form-label">Amount (₹)</label>
+        <input type="number" name="amount" class="form-control" step="0.01" required>
+      </div>
+      <button type="submit" class="btn btn-success"><i class="bi bi-inbox me-2"></i>Submit Request</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

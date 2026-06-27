@@ -1,0 +1,68 @@
+{% extends 'base/base.html' %}
+{% block title %}My Profile{% endblock %}
+{% block page_title %}My Profile{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="card text-center">
+      <div class="card-body">
+        {% if user.profile.profile_image %}
+        <img src="{{ user.profile.profile_image.url }}" class="rounded-circle mb-3" width="120" height="120" style="object-fit:cover">
+        {% else %}
+        <div class="rounded-circle bg-primary bg-opacity-10 d-inline-flex align-items-center justify-content-center mb-3" style="width:120px;height:120px">
+          <i class="bi bi-person-fill text-primary fs-1"></i>
+        </div>
+        {% endif %}
+        <h5 class="fw-bold">{{ user.get_full_name|default:user.username }}</h5>
+        <div class="badge bg-primary mb-2">{{ user.member_id }}</div>
+        <div><span class="badge badge-status-{{ user.status }}">{{ user.status|title }}</span></div>
+        <hr>
+        <a href="{% url 'accounts:edit_profile' %}" class="btn btn-outline-primary btn-sm w-100"><i class="bi bi-pencil me-2"></i>Edit Profile</a>
+        <a href="{% url 'accounts:change_password' %}" class="btn btn-outline-secondary btn-sm w-100 mt-2"><i class="bi bi-key me-2"></i>Change Password</a>
+      </div>
+    </div>
+    <div class="card mt-3">
+      <div class="card-header"><h6 class="mb-0 fw-semibold">Downloads</h6></div>
+      <div class="card-body">
+        <a href="{% url 'accounts:download_id_card' %}" class="btn btn-sm btn-outline-primary w-100 mb-2"><i class="bi bi-card-text me-2"></i>ID Card</a>
+        <a href="{% url 'accounts:download_welcome_letter' %}" class="btn btn-sm btn-outline-primary w-100 mb-2"><i class="bi bi-envelope me-2"></i>Welcome Letter</a>
+        <a href="{% url 'accounts:download_joining_letter' %}" class="btn btn-sm btn-outline-primary w-100"><i class="bi bi-file-text me-2"></i>Joining Letter</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-header"><h6 class="mb-0 fw-semibold">Personal Information</h6></div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-sm-6"><label class="form-label text-muted small">First Name</label><p class="fw-medium">{{ user.profile.first_name|default:'—' }}</p></div>
+          <div class="col-sm-6"><label class="form-label text-muted small">Last Name</label><p class="fw-medium">{{ user.profile.last_name|default:'—' }}</p></div>
+          <div class="col-sm-6"><label class="form-label text-muted small">Username</label><p class="fw-medium">{{ user.username }}</p></div>
+          <div class="col-sm-6"><label class="form-label text-muted small">Email</label><p class="fw-medium">{{ user.email }}</p></div>
+          <div class="col-sm-6"><label class="form-label text-muted small">Mobile</label><p class="fw-medium">{{ user.mobile|default:'—' }}</p></div>
+          <div class="col-sm-6"><label class="form-label text-muted small">Sponsor ID</label><p class="fw-medium">{{ user.sponsor_id|default:'—' }}</p></div>
+          <div class="col-12"><label class="form-label text-muted small">Address</label><p class="fw-medium">{{ user.profile.address|default:'—' }}</p></div>
+          <div class="col-sm-4"><label class="form-label text-muted small">City</label><p class="fw-medium">{{ user.profile.city|default:'—' }}</p></div>
+          <div class="col-sm-4"><label class="form-label text-muted small">State</label><p class="fw-medium">{{ user.profile.state|default:'—' }}</p></div>
+          <div class="col-sm-4"><label class="form-label text-muted small">Pincode</label><p class="fw-medium">{{ user.profile.pincode|default:'—' }}</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="card mt-3">
+      <div class="card-header"><h6 class="mb-0 fw-semibold">Bank Details</h6></div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-sm-6"><label class="form-label text-muted small">Bank Name</label><p class="fw-medium">{{ user.profile.bank_name|default:'—' }}</p></div>
+          <div class="col-sm-6"><label class="form-label text-muted small">Account Holder</label><p class="fw-medium">{{ user.profile.account_holder|default:'—' }}</p></div>
+          <div class="col-sm-6"><label class="form-label text-muted small">Account Number</label><p class="fw-medium">{{ user.profile.account_number|default:'—' }}</p></div>
+          <div class="col-sm-6"><label class="form-label text-muted small">IFSC Code</label><p class="fw-medium">{{ user.profile.ifsc_code|default:'—' }}</p></div>
+          <div class="col-sm-4"><label class="form-label text-muted small">GPay</label><p class="fw-medium">{{ user.profile.gpay|default:'—' }}</p></div>
+          <div class="col-sm-4"><label class="form-label text-muted small">PhonePe</label><p class="fw-medium">{{ user.profile.phonepe|default:'—' }}</p></div>
+          <div class="col-sm-4"><label class="form-label text-muted small">Paytm</label><p class="fw-medium">{{ user.profile.paytm|default:'—' }}</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

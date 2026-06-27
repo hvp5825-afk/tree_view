@@ -1,0 +1,49 @@
+{% extends 'base/base.html' %}
+{% block title %}Add Product{% endblock %}
+{% block page_title %}Add PMF Product{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width:800px">
+  <div class="card-header"><h6 class="mb-0 fw-semibold">Add New Product</h6></div>
+  <div class="card-body">
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Product Title</label>
+          <input type="text" name="title" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Amount (₹)</label>
+          <input type="number" name="amount" class="form-control" step="0.01" required>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Color</label>
+          <input type="text" name="color" class="form-control" placeholder="e.g. Red">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Size</label>
+          <input type="text" name="size" class="form-control" placeholder="e.g. M / 250ml">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Product Image</label>
+          <input type="file" name="image" class="form-control" accept=".jpg,.jpeg,.png,.webp">
+        </div>
+        <div class="col-12">
+          <label class="form-label">Product Details</label>
+          <textarea name="details" id="id_details" class="form-control" rows="4"></textarea>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle me-2"></i>Add Product</button>
+          <a href="{% url 'products:manage' %}" class="btn btn-secondary ms-2">Manage Products</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+<script>CKEDITOR.replace('id_details');</script>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'base/base.html' %}
+{% block title %}Manage Notifications{% endblock %}
+{% block page_title %}Send Notification{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+  <div class="col-md-5">
+    <div class="card">
+      <div class="card-header"><h6 class="mb-0 fw-semibold">New Notification</h6></div>
+      <div class="card-body">
+        <form method="POST">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label">Type</label>
+            <select name="notif_type" class="form-select" id="notifType">
+              <option value="global">Global (All Members)</option>
+              <option value="individual">Individual</option>
+            </select>
+          </div>
+          <div class="mb-3" id="memberField" style="display:none">
+            <label class="form-label">Member ID</label>
+            <input type="text" name="member_id" class="form-control" placeholder="e.g. UPN1234">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Message</label>
+            <textarea name="message" class="form-control" rows="4" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary"><i class="bi bi-send me-2"></i>Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <div class="card">
+      <div class="card-header"><h6 class="mb-0 fw-semibold">Sent Notifications</h6></div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead><tr><th>#</th><th>Type</th><th>Member</th><th>Message</th><th>Read</th><th>Date</th><th></th></tr></thead>
+            <tbody>
+              {% for n in notifs %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><span class="badge bg-{% if n.notif_type == 'global' %}info{% else %}secondary{% endif %}">{{ n.notif_type }}</span></td>
+                <td><small>{{ n.user.member_id|default:'All' }}</small></td>
+                <td><small>{{ n.message|truncatechars:60 }}</small></td>
+                <td>{% if n.is_read %}<i class="bi bi-check2-all text-success"></i>{% else %}<i class="bi bi-envelope text-muted"></i>{% endif %}</td>
+                <td class="small">{{ n.created_at|date:"d M Y" }}</td>
+                <td>
+                  <form method="POST" action="{% url 'notifications:delete' n.pk %}" style="display:inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete?')"><i class="bi bi-trash"></i></button>
+                  </form>
+                </td>
+              </tr>
+              {% empty %}
+              <tr><td colspan="7" class="text-center py-3 text-muted">No notifications.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$('#notifType').on('change', function() {
+  $('#memberField').toggle(this.value === 'individual');
+});
+</script>
+{% endblock %}

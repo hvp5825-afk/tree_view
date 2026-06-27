@@ -1,0 +1,49 @@
+{% extends 'base/base.html' %}
+{% block title %}Send Help{% endblock %}
+{% block page_title %}Send Help{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width:600px">
+  <div class="card-header"><h6 class="mb-0 fw-semibold">Submit Send Help Request</h6></div>
+  <div class="card-body">
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Request To (Member ID)</label>
+          <input type="text" name="request_to" class="form-control" placeholder="UPN1234">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Amount (₹)</label>
+          <input type="number" name="amount" class="form-control" step="0.01" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Payment Method</label>
+          <select name="payment_method" class="form-select" required>
+            <option value="gpay">GPay</option>
+            <option value="phonepe">PhonePe</option>
+            <option value="paytm">Paytm</option>
+            <option value="upi">UPI</option>
+            <option value="bank">Bank Transfer</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Transaction Number</label>
+          <input type="text" name="transaction_no" class="form-control">
+        </div>
+        <div class="col-12">
+          <label class="form-label">Payment Proof</label>
+          <input type="file" name="proof_file" class="form-control" accept=".jpg,.jpeg,.png,.pdf">
+        </div>
+        <div class="col-12">
+          <label class="form-label">Remarks</label>
+          <textarea name="remarks" class="form-control" rows="2"></textarea>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary"><i class="bi bi-send me-2"></i>Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

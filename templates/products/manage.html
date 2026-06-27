@@ -1,0 +1,62 @@
+{% extends 'base/base.html' %}
+{% block title %}Manage Products{% endblock %}
+{% block page_title %}Manage Products{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header d-flex justify-content-between">
+    <h6 class="mb-0 fw-semibold">Product List</h6>
+    <a href="{% url 'products:add' %}" class="btn btn-sm btn-primary"><i class="bi bi-plus me-1"></i>Add Product</a>
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0 align-middle">
+        <thead><tr><th>#</th><th>Status</th><th>Image</th><th>Title</th><th>Price</th><th>Color</th><th>Size</th><th>Date</th><th>Action</th></tr></thead>
+        <tbody>
+          {% for p in products %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>
+              <div class="form-check form-switch">
+                <input class="form-check-input status-toggle" type="checkbox" data-id="{{ p.pk }}" {% if p.is_active %}checked{% endif %}>
+              </div>
+            </td>
+            <td>
+              {% if p.image %}
+              <img src="{{ p.image.url }}" width="50" height="50" style="object-fit:cover;border-radius:6px">
+              {% else %}
+              <span class="text-muted small">—</span>
+              {% endif %}
+            </td>
+            <td><strong>{{ p.title }}</strong></td>
+            <td>₹{{ p.amount }}</td>
+            <td>{{ p.color|default:"—" }}</td>
+            <td>{{ p.size|default:"—" }}</td>
+            <td class="small">{{ p.created_at|date:"d M Y" }}</td>
+            <td><a href="{% url 'products:edit' p.pk %}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></a></td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="9" class="text-center text-muted py-3">No products found.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$('.status-toggle').on('change', function() {
+  const id  = $(this).data('id');
+  const btn = $(this);
+  $.post(`/products/toggle/${id}/`, {}, function(data) {
+    // Update visually (already toggled by browser)
+  }).fail(function() {
+    // Revert on failure
+    btn.prop('checked', !btn.prop('checked'));
+    alert('Failed to toggle status.');
+  });
+});
+</script>
+{% endblock %}

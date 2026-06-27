@@ -1,0 +1,52 @@
+{% extends 'base/base.html' %}
+{% block title %}KYC Submission{% endblock %}
+{% block page_title %}KYC Verification{% endblock %}
+
+{% block content %}
+{% if kyc and kyc.status == 'accepted' %}
+<div class="alert alert-success"><i class="bi bi-check-circle-fill me-2"></i>Your KYC is verified.</div>
+{% elif kyc and kyc.status == 'pending' %}
+<div class="alert alert-warning"><i class="bi bi-hourglass-split me-2"></i>KYC under review. Please wait.</div>
+{% else %}
+{% if kyc and kyc.status == 'rejected' %}
+<div class="alert alert-danger"><i class="bi bi-x-circle me-2"></i>KYC rejected: {{ kyc.remarks }}. Please resubmit.</div>
+{% endif %}
+<div class="card" style="max-width:700px">
+  <div class="card-header"><h6 class="mb-0 fw-semibold">Submit KYC Documents</h6></div>
+  <div class="card-body">
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Aadhaar Number</label>
+          <input type="text" name="aadhaar_number" class="form-control" maxlength="12" value="{{ kyc.aadhaar_number|default:'' }}">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">PAN Number</label>
+          <input type="text" name="pan_number" class="form-control" maxlength="10" value="{{ kyc.pan_number|default:'' }}">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Aadhaar Card File</label>
+          <input type="file" name="aadhaar_file" class="form-control" accept=".pdf,.jpg,.jpeg,.png">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">PAN Card File</label>
+          <input type="file" name="pan_file" class="form-control" accept=".pdf,.jpg,.jpeg,.png">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Bank Passbook / Statement</label>
+          <input type="file" name="bank_file" class="form-control" accept=".pdf,.jpg,.jpeg,.png">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Passport Photo</label>
+          <input type="file" name="photo_file" class="form-control" accept=".jpg,.jpeg,.png">
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary"><i class="bi bi-upload me-2"></i>Submit KYC</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

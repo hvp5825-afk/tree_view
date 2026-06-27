@@ -1,0 +1,57 @@
+{% extends 'base/base.html' %}
+{% block title %}My Network{% endblock %}
+{% block page_title %}My Network{% endblock %}
+
+{% block content %}
+<!-- Team Stats -->
+<div class="row g-3 mb-4">
+  <div class="col-md-3">
+    <div class="card stat-card border-start border-primary border-3">
+      <div class="card-body"><div class="text-muted small">Left Total</div><div class="fw-bold fs-4">{{ left_total }}</div></div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card stat-card border-start border-success border-3">
+      <div class="card-body"><div class="text-muted small">Left Active</div><div class="fw-bold fs-4">{{ left_active }}</div></div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card stat-card border-start border-info border-3">
+      <div class="card-body"><div class="text-muted small">Right Total</div><div class="fw-bold fs-4">{{ right_total }}</div></div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card stat-card border-start border-warning border-3">
+      <div class="card-body"><div class="text-muted small">Right Active</div><div class="fw-bold fs-4">{{ right_active }}</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Direct Referrals -->
+<div class="card">
+  <div class="card-header"><h6 class="mb-0 fw-semibold">Direct Referrals</h6></div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead>
+          <tr><th>#</th><th>Member ID</th><th>Name</th><th>Position</th><th>Joining Date</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          {% for r in directs %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td><strong>{{ r.member.member_id }}</strong></td>
+            <td>{{ r.member.get_full_name }}</td>
+            <td><span class="badge bg-{{ r.position|yesno:'primary,info' }}">{{ r.position }}</span></td>
+            <td>{{ r.joining_date|date:"d M Y" }}</td>
+            <td><span class="badge badge-status-{{ r.member.status }}">{{ r.member.status|title }}</span></td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="6" class="text-center text-muted py-3">No referrals yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

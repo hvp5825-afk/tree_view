@@ -1,0 +1,52 @@
+{% extends 'base/base.html' %}
+{% block title %}Admin Rewards{% endblock %}
+{% block page_title %}Reward Management{% endblock %}
+
+{% block content %}
+<ul class="nav nav-tabs mb-3">
+  <li class="nav-item"><a class="nav-link {% if status_filter == 'pending' %}active{% endif %}" href="?status=pending">Pending</a></li>
+  <li class="nav-item"><a class="nav-link {% if status_filter == 'accepted' %}active{% endif %}" href="?status=accepted">Accepted</a></li>
+  <li class="nav-item"><a class="nav-link {% if status_filter == 'rejected' %}active{% endif %}" href="?status=rejected">Rejected</a></li>
+</ul>
+
+<div class="card">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead><tr><th>#</th><th>Member ID</th><th>Name</th><th>Reward</th><th>Type</th><th>Amount</th><th>Date</th><th>Action</th></tr></thead>
+        <tbody>
+          {% for r in rewards %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td><strong>{{ r.user.member_id }}</strong></td>
+            <td>{{ r.user.get_full_name }}</td>
+            <td>{{ r.reward_name }}</td>
+            <td><span class="badge bg-{% if r.reward_type == 'cash' %}success{% else %}info{% endif %}">{{ r.reward_type|title }}</span></td>
+            <td>₹{{ r.reward_amount }}</td>
+            <td class="small">{{ r.qualification_date|date:"d M Y" }}</td>
+            <td>
+              {% if r.status == 'pending' %}
+              <form method="POST" action="{% url 'rewards:admin_action' r.pk %}" class="d-inline">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="accepted">
+                <button class="btn btn-sm btn-success">Accept</button>
+              </form>
+              <form method="POST" action="{% url 'rewards:admin_action' r.pk %}" class="d-inline">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="rejected">
+                <button class="btn btn-sm btn-danger">Reject</button>
+              </form>
+              {% else %}
+              <span class="badge badge-status-{{ r.status }}">{{ r.status|title }}</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="8" class="text-center py-3 text-muted">No rewards.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

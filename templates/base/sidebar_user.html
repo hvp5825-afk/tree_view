@@ -1,0 +1,79 @@
+{% load static %}
+<li class="nav-item">
+  <a class="nav-link text-white" href="{% url 'dashboard:user_dashboard' %}" title="Dashboard">
+    <i class="bi bi-speedometer2 me-2"></i><span>Dashboard</span>
+  </a>
+</li>
+<li class="nav-item mt-1">
+  <a class="nav-link text-white" href="{% url 'accounts:profile' %}" title="Profile">
+    <i class="bi bi-person-circle me-2"></i><span>My Profile</span>
+  </a>
+</li>
+<li class="nav-item mt-1">
+  <a class="nav-link text-white collapsed" data-bs-toggle="collapse" href="#networkMenu" title="My Network">
+    <i class="bi bi-share me-2"></i><span>My Network</span> <i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <div class="collapse" id="networkMenu">
+    <ul class="nav flex-column ms-3">
+      <li><a class="nav-link text-secondary py-1" href="{% url 'network:referrals' %}" title="Referrals"><i class="bi bi-circle me-1"></i><span>My Referrals</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'network:tree' %}" title="Tree View"><i class="bi bi-circle me-1"></i><span>Tree View</span></a></li>
+    </ul>
+  </div>
+</li>
+<li class="nav-item mt-1">
+  <a class="nav-link text-white" href="{% url 'kyc:submit' %}" title="KYC">
+    <i class="bi bi-card-checklist me-2"></i><span>KYC</span>
+  </a>
+</li>
+<li class="nav-item mt-1">
+  <a class="nav-link text-white collapsed" data-bs-toggle="collapse" href="#pmfMenu" title="PMF">
+    <i class="bi bi-cash-coin me-2"></i><span>PMF</span> <i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <div class="collapse" id="pmfMenu">
+    <ul class="nav flex-column ms-3">
+      <li><a class="nav-link text-secondary py-1" href="{% url 'pmf:pay' %}" title="Pay PMF"><i class="bi bi-circle me-1"></i><span>Pay PMF</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'pmf:history' %}" title="PMF History"><i class="bi bi-circle me-1"></i><span>PMF History</span></a></li>
+    </ul>
+  </div>
+</li>
+<li class="nav-item mt-1">
+  <a class="nav-link text-white collapsed" data-bs-toggle="collapse" href="#helpMenu" title="Help">
+    <i class="bi bi-hand-index me-2"></i><span>Help</span> <i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <div class="collapse" id="helpMenu">
+    <ul class="nav flex-column ms-3">
+      <li><a class="nav-link text-secondary py-1" href="{% url 'helpdesk:send' %}" title="Send Help"><i class="bi bi-circle me-1"></i><span>Send Help</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'helpdesk:send_history' %}" title="Send History"><i class="bi bi-circle me-1"></i><span>Send History</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'helpdesk:receive' %}" title="Receive Help"><i class="bi bi-circle me-1"></i><span>Receive Help</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'helpdesk:receive_history' %}" title="Receive History"><i class="bi bi-circle me-1"></i><span>Receive History</span></a></li>
+    </ul>
+  </div>
+</li>
+<li class="nav-item mt-1">
+  <a class="nav-link text-white" href="{% url 'rewards:list' %}" title="Rewards">
+    <i class="bi bi-trophy me-2"></i><span>Rewards</span>
+  </a>
+</li>
+<li class="nav-item mt-1">
+  <a class="nav-link text-white collapsed" data-bs-toggle="collapse" href="#supportMenu" title="Support">
+    <i class="bi bi-headset me-2"></i><span>Support</span> <i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <div class="collapse" id="supportMenu">
+    <ul class="nav flex-column ms-3">
+      <li><a class="nav-link text-secondary py-1" href="{% url 'support:create' %}" title="New Ticket"><i class="bi bi-circle me-1"></i><span>New Ticket</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'support:inbox' %}" title="My Tickets"><i class="bi bi-circle me-1"></i><span>My Tickets</span></a></li>
+    </ul>
+  </div>
+</li>
+<li class="nav-item mt-1">
+  <a class="nav-link text-white collapsed" data-bs-toggle="collapse" href="#downloadMenu" title="Downloads">
+    <i class="bi bi-download me-2"></i><span>Downloads</span> <i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <div class="collapse" id="downloadMenu">
+    <ul class="nav flex-column ms-3">
+      <li><a class="nav-link text-secondary py-1" href="{% url 'accounts:preview_id_card' %}" title="ID Card"><i class="bi bi-card-text me-1"></i><span>ID Card</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'accounts:preview_welcome_letter' %}" title="Welcome Letter"><i class="bi bi-envelope-open me-1"></i><span>Welcome Letter</span></a></li>
+      <li><a class="nav-link text-secondary py-1" href="{% url 'accounts:preview_joining_letter' %}" title="Joining Letter"><i class="bi bi-file-text me-1"></i><span>Joining Letter</span></a></li>
+    </ul>
+  </div>
+</li>

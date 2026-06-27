@@ -1,0 +1,42 @@
+{% extends 'base/base.html' %}
+{% block title %}Removed Members{% endblock %}
+{% block page_title %}Removed Members{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover table-striped mb-0 align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>Sl</th><th>Member ID</th><th>Name</th><th>Mobile</th>
+            <th>Sponsor ID</th><th>Removed On</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in members %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td><strong>{{ user.member_id }}</strong></td>
+            <td>{{ user.get_full_name }}</td>
+            <td>{{ user.mobile|default:'—' }}</td>
+            <td>{{ user.sponsor_id|default:'—' }}</td>
+            <td><small>{{ user.created_at|date:"d M Y" }}</small></td>
+            <td>
+              <form method="POST" action="{% url 'accounts:toggle_user_status' user.pk %}" style="display:inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-outline-success" onclick="return confirm('Restore {{ user.member_id }}?')">
+                  <i class="bi bi-arrow-counterclockwise"></i> Restore
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="7" class="text-center py-4 text-muted">No removed members.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

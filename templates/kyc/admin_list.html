@@ -1,0 +1,95 @@
+{% extends 'base/base.html' %}
+{% load extras %}
+{% block title %}KYC Requests{% endblock %}
+{% block page_title %}KYC Management{% endblock %}
+
+{% block content %}
+<!-- Status Tabs -->
+<ul class="nav nav-tabs mb-3">
+  {% for s in 'pending,accepted,rejected'|split:',' %}
+  <li class="nav-item">
+    <a class="nav-link {% if status_filter == s %}active{% endif %}" href="?status={{ s }}">
+      {{ s|title }}
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+
+<div class="card">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead>
+          <tr>
+            <th>#</th><th>Member ID</th><th>Name</th><th>Mobile</th><th>Status</th>
+            <th>PAN File</th><th>Aadhaar File</th><th>Bank File</th><th>Photo</th>
+            <th>Submitted</th><th>Remarks</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for kyc in kycs %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td><strong>{{ kyc.user.member_id }}</strong></td>
+            <td>{{ kyc.user.get_full_name }}</td>
+            <td>{{ kyc.user.mobile }}</td>
+            <td><span class="badge badge-status-{{ kyc.status }}">{{ kyc.status|title }}</span></td>
+            <td>{% if kyc.pan_file %}<a href="{{ kyc.pan_file.url }}" target="_blank" class="btn btn-xs btn-outline-primary btn-sm">View</a>{% else %}—{% endif %}</td>
+            <td>{% if kyc.aadhaar_file %}<a href="{{ kyc.aadhaar_file.url }}" target="_blank" class="btn btn-xs btn-outline-primary btn-sm">View</a>{% else %}—{% endif %}</td>
+            <td>{% if kyc.bank_file %}<a href="{{ kyc.bank_file.url }}" target="_blank" class="btn btn-xs btn-outline-primary btn-sm">View</a>{% else %}—{% endif %}</td>
+            <td>{% if kyc.photo_file %}<a href="{{ kyc.photo_file.url }}" target="_blank" class="btn btn-xs btn-outline-primary btn-sm">View</a>{% else %}—{% endif %}</td>
+            <td class="small">{{ kyc.submitted_at|date:"d M Y" }}</td>
+            <td><small class="text-muted">{{ kyc.remarks|default:'—'|truncatechars:35 }}</small></td>
+            <td>
+              {% if kyc.status == 'pending' %}
+              <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#actionModal{{ kyc.pk }}" data-action="accepted">Accept</button>
+              <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#actionModal{{ kyc.pk }}" data-action="rejected">Reject</button>
+              {% else %}
+              <span class="badge badge-status-{{ kyc.status }}">{{ kyc.status|title }}</span>
+              {% endif %}
+            </td>
+          </tr>
+          <!-- Action Modal -->
+          <div class="modal fade" id="actionModal{{ kyc.pk }}" tabindex="-1">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+                <div class="modal-header"><h6 class="modal-title">KYC Action</h6><button class="btn-close" data-bs-dismiss="modal"></button></div>
+                <form method="POST" action="{% url 'kyc:admin_action' kyc.pk %}">
+                  {% csrf_token %}
+                  <div class="modal-body">
+                    <input type="hidden" name="action" id="actionInput{{ kyc.pk }}">
+                    <label class="form-label small">Remarks (optional)</label>
+                    <textarea name="remarks" class="form-control form-control-sm" rows="2"></textarea>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-sm">Confirm</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          {% empty %}
+          <tr><td colspan="12" class="text-center text-muted py-3">No {{ status_filter }} KYC requests.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Set hidden action field based on which button was clicked
+document.querySelectorAll('[data-bs-target]').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const action = this.dataset.action;
+    const modalId = this.dataset.bsTarget.replace('#actionModal', '');
+    if (action) {
+      const inp = document.getElementById('actionInput' + modalId);
+      if (inp) inp.value = action;
+    }
+  });
+});
+</script>
+{% endblock %}

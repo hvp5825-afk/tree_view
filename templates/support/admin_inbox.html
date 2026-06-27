@@ -1,0 +1,47 @@
+{% extends 'base/base.html' %}
+{% block title %}Support Inbox{% endblock %}
+{% block page_title %}Support Inbox{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead><tr><th>#</th><th>Member</th><th>Subject</th><th>Message</th><th>Attachment</th><th>Date</th><th>Action</th></tr></thead>
+        <tbody>
+          {% for t in tickets %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td><strong>{{ t.user.member_id }}</strong><br><small>{{ t.user.get_full_name }}</small></td>
+            <td>{{ t.subject }}</td>
+            <td><small>{{ t.message|truncatechars:80 }}</small></td>
+            <td>{% if t.attachment %}<a href="{{ t.attachment.url }}" class="btn btn-sm btn-outline-primary" target="_blank">View</a>{% else %}—{% endif %}</td>
+            <td class="small">{{ t.created_at|date:"d M Y" }}</td>
+            <td>
+              <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#replyModal{{ t.pk }}"><i class="bi bi-reply"></i> Reply</button>
+            </td>
+          </tr>
+          <div class="modal fade" id="replyModal{{ t.pk }}" tabindex="-1">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <form method="POST" action="{% url 'support:admin_reply' t.pk %}">
+                  {% csrf_token %}
+                  <div class="modal-header"><h6 class="modal-title">Reply to {{ t.user.member_id }}</h6><button class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body">
+                    <p class="small text-muted"><strong>Original:</strong> {{ t.message }}</p>
+                    <textarea name="reply" class="form-control" rows="4" placeholder="Write your reply..." required></textarea>
+                  </div>
+                  <div class="modal-footer"><button type="submit" class="btn btn-primary">Send Reply</button></div>
+                </form>
+              </div>
+            </div>
+          </div>
+          {% empty %}
+          <tr><td colspan="7" class="text-center py-3 text-muted">No open tickets.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
