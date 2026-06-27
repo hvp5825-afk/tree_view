@@ -28,6 +28,9 @@ User = get_user_model()
 # ── Template Views ──────────────────────────────────────────────────────────
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard:index')
+
 
     # Rate limiting: track failed attempts in session
     attempts = request.session.get('login_attempts', 0)
